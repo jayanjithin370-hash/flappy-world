@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Flappy World | Create & Play</title>
+<link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <a href="index.html" class="logo">
+            <span>🐦</span> FLAPPY WORLD
+        </a>
+
+        <button id="settingsBtn" class="settings-btn" type="button">
+            ⚙️ Settings
+        </button>
+        <div class="auth-buttons">
+    <button id="loginBtn" class="settings-btn" type="button">
+        Login
+    </button>
+
+    <button id="signupBtn" class="settings-btn" type="button">
+        Sign Up
+    </button>
+
+    <button id="logoutBtn" class="settings-btn" type="button" hidden>
+        Logout
+    </button>
+</div>
+    </header>
+
+    <main class="main-container">
+
+        <section class="intro">
+            <p class="eyebrow">PLAY • CREATE • SHARE</p>
+
+            <h1>Your Game.<br><span>Your Rules.</span></h1>
+
+            <p class="subtitle">
+                Create your own flying adventure and share it with friends.
+            </p>
+        </section>
+
+        <section class="game-card">
+
+            <div class="game-header">
+                <span>YOUR ADVENTURE</span>
+
+                <div class="score-box">
+                    SCORE <strong id="score">0</strong>
+                </div>
+            </div>
+
+            <div id="gameArea" class="game-area">
+
+                <div class="cloud cloud-one"></div>
+                <div class="cloud cloud-two"></div>
+
+                <div id="startScreen" class="start-screen">
+                    <div class="welcome-bird">🐤</div>
+
+                    <h2>Ready to Fly?</h2>
+
+                    <p>Tap, click or press SPACE to fly.</p>
+
+                    <button id="playBtn" class="primary-btn" type="button">
+                        ▶ PLAY GAME
+                    </button>
+                </div>
+
+                <div id="bird" class="bird" aria-label="Player character">
+                    🐤
+                </div>
+
+                <div id="gameOverScreen" class="game-over-screen" hidden>
+                    <h2>Game Over!</h2>
+
+                    <p>
+                        Your Score:
+                        <strong id="finalScore">0</strong>
+                    </p>
+
+                    <button id="restartBtn" class="primary-btn" type="button">
+                        ↻ PLAY AGAIN
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="game-footer">
+                <span>🏆 BEST: <strong id="bestScore">0</strong></span>
+                <span>SPACE / CLICK / TAP TO FLY</span>
+            </div>
+
+        </section>
+
+        <section class="action-grid">
+
+            <button id="customizeBtn" class="action-card" type="button">
+                <span class="action-icon">🎨</span>
+                <span class="action-title">Customize</span>
+                <span class="action-description">Change your game</span>
+            </button>
+            <button id="saveGameBtn" class="action-card" type="button">
+    <span class="action-icon">💾</span>
+    <span class="action-title">Save Game</span>
+    <span class="action-description">Save your custom game online</span>
+</button>
+<button id="myGamesBtn" class="action-card" type="button">
+    <span class="action-icon">📂</span>
+    <span class="action-title">My Games</span>
+    <span class="action-description">View your saved games</span>
+</button>
+
+<div id="myGamesList" style="display: none; margin-top: 20px;"></div>
+
+            <button id="shareBtn" class="action-card" type="button">
+                <span class="action-icon">🔗</span>
+                <span class="action-title">Share Game</span>
+                <span class="action-description">Play with friends</span>
+            </button>
+
+            <button id="myGamesBtn" class="action-card" type="button">
+                <span class="action-icon">🎮</span>
+                <span class="action-title">Community</span>
+                <span class="action-description">Explore creations</span>
+            </button>
+
+        </section>
+
+        <p id="statusMessage" class="status-message" role="status"></p>
+
+    </main>
+<!-- Authentication Dialog -->
+<dialog id="authDialog" class="settings-dialog">
+
+    <div class="dialog-header">
+        <h2 id="authTitle">Login</h2>
+
+        <button
+            class="close-btn"
+            data-close="authDialog"
+            type="button"
+            aria-label="Close"
+        >✕</button>
+    </div>
+
+    <div class="dialog-content">
+
+        <label for="authEmail">Email Address</label>
+        <input
+            id="authEmail"
+            type="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+        >
+
+        <label for="authPassword">Password</label>
+        <input
+            id="authPassword"
+            type="password"
+            placeholder="Enter password"
+            autocomplete="current-password"
+            minlength="6"
+            required
+        >
+
+        <button
+            id="authSubmitBtn"
+            class="primary-btn"
+            type="button"
+        >
+            LOGIN
+        </button>
+
+        <p id="authMessage" role="status"></p>
+
+    </div>
+
+</dialog>
+    <!-- Customization Panel -->
+    <dialog id="customizeDialog" class="settings-dialog">
+
+        <div class="dialog-header">
+            <h2>🎨 Customize Game</h2>
+
+            <button class="close-btn" data-close="customizeDialog"
+                type="button" aria-label="Close">✕</button>
+        </div>
+
+        <div class="dialog-content">
+
+            <label for="characterFile">Character Image</label>
+            <input id="characterFile" type="file"
+                accept="image/png,image/jpeg,image/webp">
+
+            <label for="backgroundFile">Background Image</label>
+            <input id="backgroundFile" type="file"
+                accept="image/png,image/jpeg,image/webp">
+
+            <label for="obstacleColor">Obstacle Color</label>
+            <input id="obstacleColor" type="color" value="#25a55f">
+
+            <label for="musicFile">Background Music</label>
+            <input id="musicFile" type="file"
+                accept="audio/*">
+
+            <label for="flapFile">Fly Sound</label>
+            <input id="flapFile" type="file" accept="audio/*">
+
+            <label for="collisionFile">Collision Sound</label>
+            <input id="collisionFile" type="file" accept="audio/*">
+
+            <label for="gameOverFile">Game Over Sound</label>
+            <input id="gameOverFile" type="file" accept="audio/*">
+
+            <label for="musicVolume">
+                Music Volume <span id="musicVolumeValue">50%</span>
+            </label>
+            <input id="musicVolume" type="range"
+                min="0" max="100" value="50">
+
+            <label for="soundVolume">
+                Sound Volume <span id="soundVolumeValue">70%</span>
+            </label>
+            <input id="soundVolume" type="range"
+                min="0" max="100" value="70">
+
+            <button id="saveCustomizationBtn" class="primary-btn" type="button">
+                SAVE CUSTOMIZATION
+            </button>
+
+        </div>
+
+    </dialog>
+
+    <!-- General Settings -->
+    <!-- Game Settings -->
+<dialog id="settingsDialog" class="settings-dialog">
+
+    <div class="dialog-header">
+        <h2>⚙️ Game Settings</h2>
+
+        <button class="close-btn"
+                data-close="settingsDialog"
+                type="button"
+                aria-label="Close">✕</button>
+    </div>
+
+    <div class="dialog-content">
+
+        <label for="gameSpeed">🚀 Game Speed</label>
+        <select id="gameSpeed">
+            <option value="fast" selected>Fast</option>
+        </select>
+
+        <label for="difficulty">🔥 Difficulty</label>
+        <select id="difficulty">
+            <option value="hard" selected>Hard</option>
+        </select>
+
+        <button id="saveSettingsBtn"
+                class="primary-btn"
+                type="button">
+            SAVE SETTINGS
+        </button>
+
+    </div>
+
+</dialog>
+
+    <footer>
+        <p>FLAPPY WORLD © 2026 · Play Your Way.</p>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
