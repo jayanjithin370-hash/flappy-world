@@ -912,20 +912,23 @@ authSubmitBtn.addEventListener("click", async () => {
     authSubmitBtn.disabled = true;
     authMessage.textContent = "Please wait...";
 
-    try {
-        let result;
+   try {
+    let result;
 
-        if (authMode === "signup") {
-            result = await supabaseClient.auth.signUp({
-                email,
-                password
-            });
-        } else {
-            result = await supabaseClient.auth.signInWithPassword({
-                email,
-                password
-            });
-        }
+    if (authMode === "signup") {
+        result = await supabaseClient.auth.signUp({
+            email,
+            password,
+            options: {
+                emailRedirectTo: "https://jayanjithin370-hash.github.io/flappy-world/"
+            }
+        });
+    } else {
+        result = await supabaseClient.auth.signInWithPassword({
+            email,
+            password
+        });
+    }
 
         if (result.error) {
             throw result.error;
